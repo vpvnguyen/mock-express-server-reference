@@ -46,7 +46,7 @@ app.get("/", (req, res) => {
 
 app.get("/query", (req, res) => {
   res.status(200).send({
-    message: "get success",
+    message: "query success",
     "req.query": req.query,
   });
 });

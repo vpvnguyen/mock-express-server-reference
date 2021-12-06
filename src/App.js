@@ -9,12 +9,12 @@ function App() {
   const [queryResponse, setQueryResponse] = React.useState("");
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
       <h1>App</h1>
       <div>
         <h1>Get</h1>
         <button
-          id="submit-get"
+          id="getButton"
           onClick={async () => {
             try {
               const { data } = await axios.get("http://localhost:9001");
@@ -25,9 +25,9 @@ function App() {
             }
           }}
         >
-          Submit Post
+          Submit Get http://localhost:9001
         </button>
-        <p id="get-response">{getResponse}</p>
+        <p id="getResponse">{getResponse}</p>
       </div>
 
       <div>
@@ -43,7 +43,7 @@ function App() {
         />
 
         <button
-          id="submit-post"
+          id="postButton"
           onClick={async () => {
             try {
               const { data } = await axios.post("http://localhost:9001/post", {
@@ -56,14 +56,15 @@ function App() {
             }
           }}
         >
-          Submit Post
+          Submit Post http://localhost:9001/post
         </button>
-        <p className="post-response">{postResponse}</p>
+        <p id="postResponse">{postResponse}</p>
       </div>
 
       <div>
         <h1>Params</h1>
         <button
+          id="paramsButton"
           onClick={async () => {
             try {
               const { data } = await axios.post(
@@ -79,14 +80,15 @@ function App() {
             }
           }}
         >
-          Submit Params
+          Submit Params http://localhost:9001/params/:params
         </button>
-        <p>{paramsResponse}</p>
+        <p id="paramsResponse">{paramsResponse}</p>
       </div>
 
       <div>
         <h1>Query</h1>
         <button
+          id="queryButton"
           onClick={async () => {
             try {
               const { data } = await axios.get(
@@ -102,9 +104,9 @@ function App() {
             }
           }}
         >
-          Submit Query
+          Submit Query http://localhost:9001/query?query=query
         </button>
-        <p>{queryResponse}</p>
+        <p id="queryResponse">{queryResponse}</p>
       </div>
     </div>
   );
