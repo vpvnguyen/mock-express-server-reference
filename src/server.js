@@ -1,7 +1,9 @@
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -44,21 +46,21 @@ app.get("/", (req, res) => {
 
 app.get("/query", (req, res) => {
   res.status(200).send({
-    message: "Mock server up",
+    message: "get success",
     "req.query": req.query,
   });
 });
 
 app.post("/post", (req, res) => {
   res.status(200).send({
-    message: "post",
+    message: "post success",
     "req.body": req.body,
   });
 });
 
-app.post("/param/:param", (req, res) => {
+app.post("/params/:params", (req, res) => {
   res.status(200).send({
-    message: "post",
+    message: "params success",
     "req.body": req.body,
     "req.param": req.params,
   });
