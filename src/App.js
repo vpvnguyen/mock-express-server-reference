@@ -1,5 +1,11 @@
 import React from "react";
 import axios from "axios";
+import { isMock } from "./mockServerResponses";
+
+const SERVER_URL = "http://localhost:8080";
+const MOCK_SERVER_URL = "http://localhost:9001";
+
+const API_URL = isMock ? MOCK_SERVER_URL : SERVER_URL;
 
 function App() {
   const [state, setState] = React.useState("");
@@ -17,7 +23,7 @@ function App() {
           id="getButton"
           onClick={async () => {
             try {
-              const { data } = await axios.get("http://localhost:9001");
+              const { data } = await axios.get(`${API_URL}`);
 
               setGetResponse(data.message);
             } catch (error) {
@@ -25,7 +31,7 @@ function App() {
             }
           }}
         >
-          Submit Get http://localhost:9001
+          Submit Get API_URL
         </button>
         <p id="getResponse">{getResponse}</p>
       </div>
@@ -46,7 +52,7 @@ function App() {
           id="postButton"
           onClick={async () => {
             try {
-              const { data } = await axios.post("http://localhost:9001/post", {
+              const { data } = await axios.post(`${API_URL}/post`, {
                 state,
               });
 
@@ -56,7 +62,7 @@ function App() {
             }
           }}
         >
-          Submit Post http://localhost:9001/post
+          Submit Post API_URL/post
         </button>
         <p id="postResponse">{postResponse}</p>
       </div>
@@ -67,12 +73,9 @@ function App() {
           id="paramsButton"
           onClick={async () => {
             try {
-              const { data } = await axios.post(
-                "http://localhost:9001/params/params",
-                {
-                  state,
-                }
-              );
+              const { data } = await axios.post(`${API_URL}/params/params`, {
+                state,
+              });
 
               setParamsResponse(data.message);
             } catch (error) {
@@ -80,7 +83,7 @@ function App() {
             }
           }}
         >
-          Submit Params http://localhost:9001/params/:params
+          Submit Params API_URL/params/:params
         </button>
         <p id="paramsResponse">{paramsResponse}</p>
       </div>
@@ -91,12 +94,9 @@ function App() {
           id="queryButton"
           onClick={async () => {
             try {
-              const { data } = await axios.get(
-                "http://localhost:9001/query?query=query",
-                {
-                  state,
-                }
-              );
+              const { data } = await axios.get(`${API_URL}/query`, {
+                state,
+              });
 
               setQueryResponse(data.message);
             } catch (error) {
@@ -104,7 +104,7 @@ function App() {
             }
           }}
         >
-          Submit Query http://localhost:9001/query?query=query
+          Submit Query API_URL/query
         </button>
         <p id="queryResponse">{queryResponse}</p>
       </div>
