@@ -1,4 +1,50 @@
-describe("Happy Path", () => {
+const { isMock } = require("../../src/mockServerResponses");
+
+const HOME_URL = "/";
+const QUERY_URL = "/query";
+const PARAMS_URL = "/params/params";
+const POST_URL = "/post";
+
+const seedResponses = {
+  [HOME_URL]: {
+    status: 200,
+    data: {
+      message: "HOME_URL SEEDED RESPONSE",
+    },
+  },
+  [QUERY_URL]: {
+    status: 200,
+    data: {
+      message: "QUERY_URL SEEDED RESPONSE",
+    },
+  },
+  [PARAMS_URL]: {
+    status: 200,
+    data: {
+      message: "PARAMS_URL SEEDED RESPONSE",
+    },
+  },
+  [POST_URL]: {
+    status: 200,
+    data: {
+      message: "POST_URL SEEDED RESPONSE",
+    },
+  },
+};
+
+describe("Mock Seeded and Reset", () => {
+  if (isMock) {
+    before(() => {
+      cy.request("POST", "http://localhost:9001/seed", {
+        ...seedResponses,
+      });
+    });
+
+    after(() => {
+      cy.request("POST", "http://localhost:9001/seed/reset");
+    });
+  }
+
   it("Visits React App", () => {
     cy.visit("http://localhost:3000/");
   });
@@ -14,14 +60,20 @@ describe("Happy Path", () => {
     cy.intercept("GET", "http://localhost:9001/").as("getResponse");
     cy.get("button#getButton").click();
     cy.wait("@getResponse");
-    cy.get("#getResponse").should("have.text", "Mock server up");
+    cy.get("#getResponse").should(
+      "have.text",
+      seedResponses[HOME_URL].data.message
+    );
   });
 
   it("Have value after submitting POST request", () => {
     cy.intercept("POST", "http://localhost:9001/post").as("postResponse");
     cy.get("button#postButton").click();
     cy.wait("@postResponse");
-    cy.get("#postResponse").should("have.text", "post success");
+    cy.get("#postResponse").should(
+      "have.text",
+      seedResponses[POST_URL].data.message
+    );
   });
 
   it("Have value after submitting QUERY request", () => {
@@ -30,7 +82,10 @@ describe("Happy Path", () => {
     );
     cy.get("button#queryButton").click();
     cy.wait("@queryReponse");
-    cy.get("#queryResponse").should("have.text", "query success");
+    cy.get("#queryResponse").should(
+      "have.text",
+      seedResponses[QUERY_URL].data.message
+    );
   });
 
   it("Have value after submitting PARAMS request", () => {
@@ -39,6 +94,9 @@ describe("Happy Path", () => {
     );
     cy.get("button#paramsButton").click();
     cy.wait("@paramsResponse");
-    cy.get("#paramsResponse").should("have.text", "params success");
+    cy.get("#paramsResponse").should(
+      "have.text",
+      seedResponses[PARAMS_URL].data.message
+    );
   });
 });
