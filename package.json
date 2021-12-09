@@ -18,6 +18,7 @@
   "scripts": {
     "start:client": "react-scripts start",
     "start:server": "nodemon ./src/server.js",
+    "start:mock": "nodemon ./src/mockServer.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
